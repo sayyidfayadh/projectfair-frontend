@@ -1,31 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { Server_URL } from "../Services/Server_URL";
 import { toast, ToastContainer } from "react-toastify";
 import { editProjectApi } from "../Services/allAPI";
+import { EditProjectContextResponse } from "../ContextAPI/ContextShare";
 
 function Editproject({project}) {
   // console.log(project);
-  
+  const{editProjectResponse,setEditProjectResponse}=useContext(EditProjectContextResponse)
   const[fileStatus,setFileStatus]=useState(false)
   const [show, setShow] = useState(false);
   const [projectData,setProjectData]=useState({
     id:project._id,title:project.title,language:project.language,github:project.github,website:project.website,overview:project.overview,projectImage:""
   })
+  // console.log(projectData);
   
 const[preview,setPreview]=useState("")
   const handleClose = () => {
     setShow(false);
-    setProjectData({
-      title: "",
-      language: "",
-      github: "",
-      website: "",
-      overview: "",
-      projectImage: "",
-    });
     setPreview(projectData.projectImage);
   };
   const handleShow = () => setShow(true);
@@ -63,6 +57,7 @@ const[preview,setPreview]=useState("")
           //api call
           const result=await editProjectApi(id,reqBody,reqHeader)
           if(result.status===200){
+            setEditProjectResponse(result.data)
             handleClose()
           }
           else{

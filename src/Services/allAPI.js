@@ -23,10 +23,14 @@ export const getUserProjectApi=async (reqHeader)=>{
  
 }
 //getallprojects
-export const getAllProjectsAPI=async(reqHeader)=>{
-  return await commonAPI('GET',`${Server_URL}/allprojects`,"",reqHeader)
+export const getAllProjectsAPI=async(searchKey,reqHeader)=>{
+  return await commonAPI('GET',`${Server_URL}/allprojects?search=${searchKey}`,"",reqHeader)
 }
 //edit project api
 export const editProjectApi=async(id,reqBody,reqHeader)=>{
   return await commonAPI('PUT',`${Server_URL}/projects/edit/${id}`,reqBody,reqHeader)
+}
+//delter project
+export const deleteProjectAPI=async(id,reqHeader)=>{
+  return await commonAPI('DELETE',`${Server_URL}/projects/delete/${id}`,{},reqHeader)
 }

@@ -6,6 +6,7 @@ import { getAllProjectsAPI } from '../Services/allAPI'
 
 
 function Projects() {
+  const[searchKey,setSearchKey]=useState("")
   const [projects,setProjects]=useState([])
   const getAllProjects=async()=>{
     const token=sessionStorage.getItem("token")
@@ -17,7 +18,7 @@ function Projects() {
         }
         //api call
         try{
-        const result=await getAllProjectsAPI(reqHeader)
+        const result=await getAllProjectsAPI(searchKey,reqHeader)
         if(result.status===200){
           setProjects(result.data)
         }
@@ -42,7 +43,7 @@ function Projects() {
   }
   useEffect(()=>{
     getAllProjects()
-  },[])
+  },[searchKey])
   return (
     <>
     <Header/>
@@ -50,7 +51,7 @@ function Projects() {
      <h1 className='text-center mt-5 fw-bolder'>All Projects</h1> 
     <div className='d-flex justify-content-center align-items-center w-100'>
     <div className='d-flex border w-50 rounded mb-3'>
-      <input type="text" className='form-control' placeholder='search by technologies' />
+      <input onChange={e=>setSearchKey(e.target.value)} type="text" className='form-control' placeholder='search by technologies' />
       <i style={{marginLeft:'-50px',backgroundColor:"white"}} className='fa-solid fa-magnifying-glass fa-rotate-90 '></i>
     </div>
     </div>
@@ -59,7 +60,7 @@ function Projects() {
           <Col sm={12} md={6} lg={4} key={index}>
           <ProjectCard project={project}/>
             </Col>
-        )):<p>Add your first project</p>
+        )):<p>Contribute a project now</p>
       }
     
     </Row>

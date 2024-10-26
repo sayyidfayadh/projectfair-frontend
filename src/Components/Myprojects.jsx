@@ -1,19 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import Addproject from "./Addproject";
-import { getUserProjectApi } from "../Services/allAPI";
-import { AddProjectContextResponse } from "../ContextAPI/ContextShare";
+import { deleteProjectAPI, getUserProjectApi } from "../Services/allAPI";
+import { AddProjectContextResponse, EditProjectContextResponse } from "../ContextAPI/ContextShare";
 import Editproject from "./Editproject";
+import { toast  } from "react-toastify";
 function Myprojects() {
   const { addProjectResponse, setAddProjectResponse } = useContext(
     AddProjectContextResponse
   );
+  const{editProjectResponse,setEditProjectRespon}=useContext(EditProjectContextResponse)
   const [projects, setProjects] = useState([]);
+  
 
   useEffect(() => {
     getUserProjects();
-  }, [addProjectResponse]);
+  }, [addProjectResponse,editProjectResponse]);
 
   const getUserProjects = async () => {
+    console.log("started get project");
+    
     const token = sessionStorage.getItem("token");
     // console.log(token);
     if (token) {
@@ -37,6 +42,37 @@ function Myprojects() {
     }
   };
   // console.log(projects);
+
+  //delete
+  const handleDelete=async (pid)=>{
+    // console.log("inside handledeltet");
+    console.log(pid);
+    
+    
+    const token =sessionStorage.getItem("token")
+    if(token){
+      const reqHeader={
+        "authorization":`Bearer ${token}`,
+        "Content-Type":`application/json`
+      }
+      try {
+      // console.log("inside try");
+      
+        const result=await deleteProjectAPI(pid,reqHeader)
+        if(result.status===200){ 
+          toast.success("project removed")  
+          getUserProjects()
+        }
+        else{
+          toast.warning(result.response.data)
+        }
+      } catch (error) {
+        console.log(error);
+        
+      }
+    }
+
+  }
 
   return (
     <div>
@@ -66,7 +102,7 @@ function Myprojects() {
                   <a href={project?.github} className="me-3 btn">
                     <i className="fa-brands fa-github"></i>
                   </a>
-                  <button className="btn">
+                  <button className="btn" onClick={()=>handleDelete(project?._id)}>
                     <i className="fa-solid fa-trash"></i>
                   </button>
                 </div>
