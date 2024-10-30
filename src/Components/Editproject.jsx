@@ -17,6 +17,7 @@ function Editproject({project}) {
   })
   // console.log(projectData);
   
+  
 const[preview,setPreview]=useState("")
   const handleClose = () => {
     setShow(false);

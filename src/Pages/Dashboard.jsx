@@ -8,7 +8,7 @@ function Dashboard() {
   // const[username,setUserName]=useState("")
   return (
     <div  >
-      <Header/>
+      <Header insideDashboard/>
       <Row>
         {/* My projects */}
         <Col sm={12} md={8}>

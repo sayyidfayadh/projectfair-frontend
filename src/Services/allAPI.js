@@ -34,3 +34,12 @@ export const editProjectApi=async(id,reqBody,reqHeader)=>{
 export const deleteProjectAPI=async(id,reqHeader)=>{
   return await commonAPI('DELETE',`${Server_URL}/projects/delete/${id}`,{},reqHeader)
 }
+//existing profile data
+export const   getExistingProfileDataAPI=async(reqHeader)=>{
+  return await commonAPI('GET',`${Server_URL}/profileData`,"",reqHeader)
+} 
+
+//updateProfile
+export const updateProfileAPI=async(reqBody,reqHeader)=>{
+  return await commonAPI('PUT',`${Server_URL}/updateProfile`,reqBody,reqHeader)
+}
