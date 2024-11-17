@@ -15,6 +15,7 @@ function App() {
 const {isAuthorized,setIsAuthorized}=useContext(TokenAuthContext)
   return (
     <>
+
     <Routes>
       <Route path='/' element={<Home/>}></Route>
       <Route path='/dashboard' element={isAuthorized?<Dashboard/>:<Home/>}></Route>
@@ -22,6 +23,7 @@ const {isAuthorized,setIsAuthorized}=useContext(TokenAuthContext)
       <Route path='/register' element={<Auth register/>}></Route>
       <Route path='/projects' element={isAuthorized?<Projects/>:<Home/>}></Route>
     </Routes>
+    
      <Footer/>
     </>
   )
